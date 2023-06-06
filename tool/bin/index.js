@@ -16,7 +16,6 @@ try {
   }
 } catch (e) {
   console.log(chalk.yellow(e.message));
-  console.log();
   usage();
 }
 
