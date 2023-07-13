@@ -2,20 +2,25 @@
 const logger = require("../src/logger")("bin");
 const arg = require("arg");
 const chalk = require("chalk");
-const getConfig = require("../src/config/config-mgr");
-const start = require("../src/commands/start");
+const psql = require("../src/commands/psqlCLI");
+const js = require("../src/commands/js");
+const css = require("../src/commands/css");
 
 try {
   const args = arg({
-    "--start": Boolean,
-    "--build": Boolean,
+    "--psql": Boolean,
+    "--js": Boolean,
+    "--css": Boolean,
   });
 
   logger.debug("Received args", args);
 
-  if (args["--start"]) {
-    const config = getConfig();
-    start(config);
+  if (args["--psql"]) {
+    psql();
+  } else if (args["--js"]) {
+    js();
+  } else if (args["--css"]) {
+    css();
   }
 } catch (e) {
   logger.warning(e.message);
@@ -25,6 +30,7 @@ try {
 
 function usage() {
   console.log(`${chalk.whiteBright("tool [CMD]")}
-  ${chalk.greenBright("--start")}\tStarts the app
-  ${chalk.greenBright("--build")}\tBuilds the app`);
+  ${chalk.greenBright("--js")}   Shows basic js syntax
+  ${chalk.greenBright("--css")}  Shows basic css syntax
+  ${chalk.greenBright("--psql cli")} Shows basic psql CLI commands`);
 }
